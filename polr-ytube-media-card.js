@@ -8919,8 +8919,7 @@ let PoLRYTubePlaying = class PoLRYTubePlaying extends s$1 {
         if (((_e = this._entity) === null || _e === void 0 ? void 0 : _e.state) == "idle")
             return;
         try {
-            if (FetchableMediaContentType.includes(media_content_type) &&
-                !["album"].includes(_media_type)) {
+            if (FetchableMediaContentType.includes(media_content_type)) {
                 results = await this._hass.callWS({
                     type: "media_player/browse_media",
                     entity_id: this._entity["entity_id"],
@@ -8928,20 +8927,20 @@ let PoLRYTubePlaying = class PoLRYTubePlaying extends s$1 {
                     media_content_id: "",
                 });
             }
-            // Treat songs as a playlist
-            if (["album"].includes(_media_type)) {
-                results = await this._hass.callWS({
-                    type: "media_player/browse_media",
-                    entity_id: (_f = this._entity) === null || _f === void 0 ? void 0 : _f.entity_id,
-                    media_content_type: "album_of_track",
-                    media_content_id: "1",
-                });
-                (_g = results === null || results === void 0 ? void 0 : results.children) === null || _g === void 0 ? void 0 : _g.map((r, index) => {
-                    r["media_content_type"] = "PLAYLIST_GOTO_TRACK";
-                    r["media_content_id"] = index + 1;
-                    return r;
-                });
-            }
+            // // Treat songs as a playlist
+            // if (["album"].includes(_media_type)) {
+            //     results = await this._hass.callWS({
+            //         type: "media_player/browse_media",
+            //         entity_id: (_f = this._entity) === null || _f === void 0 ? void 0 : _f.entity_id,
+            //         media_content_type: "album_of_track",
+            //         media_content_id: "1",
+            //     });
+            //     (_g = results === null || results === void 0 ? void 0 : results.children) === null || _g === void 0 ? void 0 : _g.map((r, index) => {
+            //         r["media_content_type"] = "PLAYLIST_GOTO_TRACK";
+            //         r["media_content_id"] = index + 1;
+            //         return r;
+            //     });
+            // }
             if (((_j = (_h = this._entity) === null || _h === void 0 ? void 0 : _h.attributes) === null || _j === void 0 ? void 0 : _j.media_title) == "loading...") {
                 this._polrYTubeList.state = 4 /* PoLRYTubeListState.LOADING */;
                 return;
