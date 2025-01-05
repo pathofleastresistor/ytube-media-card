@@ -32,30 +32,13 @@ export class PoLRYTubePlaying extends LitElement {
 
         try {
             if (
-                FetchableMediaContentType.includes(media_content_type) &&
-                !["album"].includes(_media_type)
+                FetchableMediaContentType.includes(media_content_type)
             ) {
                 results = await this._hass.callWS({
                     type: "media_player/browse_media",
                     entity_id: this._entity["entity_id"],
                     media_content_type: "cur_playlists",
                     media_content_id: "",
-                });
-            }
-
-            // Treat songs as a playlist
-            if (["album"].includes(_media_type)) {
-                results = await this._hass.callWS({
-                    type: "media_player/browse_media",
-                    entity_id: this._entity?.entity_id,
-                    media_content_type: "album_of_track",
-                    media_content_id: "1",
-                });
-
-                results?.children?.map((r: any, index: number) => {
-                    r["media_content_type"] = "PLAYLIST_GOTO_TRACK";
-                    r["media_content_id"] = index + 1;
-                    return r;
                 });
             }
 

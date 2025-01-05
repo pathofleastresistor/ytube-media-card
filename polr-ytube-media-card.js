@@ -4852,7 +4852,6 @@ let PoLRYTubeBrowser = class PoLRYTubeBrowser extends s$1 {
     }
     _renderPlay() {
         const element = this._browseHistory[this._browseHistory.length - 1];
-        console.log(element);
         if (element === null || element === void 0 ? void 0 : element.can_play) {
             return x `
                 <div class="playable_result">
@@ -8920,8 +8919,7 @@ let PoLRYTubePlaying = class PoLRYTubePlaying extends s$1 {
         if (((_e = this._entity) === null || _e === void 0 ? void 0 : _e.state) == "idle")
             return;
         try {
-            if (FetchableMediaContentType.includes(media_content_type) &&
-                !["album"].includes(_media_type)) {
+            if (FetchableMediaContentType.includes(media_content_type)) {
                 results = await this._hass.callWS({
                     type: "media_player/browse_media",
                     entity_id: this._entity["entity_id"],
@@ -8929,20 +8927,20 @@ let PoLRYTubePlaying = class PoLRYTubePlaying extends s$1 {
                     media_content_id: "",
                 });
             }
-            // Treat songs as a playlist
-            if (["album"].includes(_media_type)) {
-                results = await this._hass.callWS({
-                    type: "media_player/browse_media",
-                    entity_id: (_f = this._entity) === null || _f === void 0 ? void 0 : _f.entity_id,
-                    media_content_type: "album_of_track",
-                    media_content_id: "1",
-                });
-                (_g = results === null || results === void 0 ? void 0 : results.children) === null || _g === void 0 ? void 0 : _g.map((r, index) => {
-                    r["media_content_type"] = "PLAYLIST_GOTO_TRACK";
-                    r["media_content_id"] = index + 1;
-                    return r;
-                });
-            }
+            // // Treat songs as a playlist
+            // if (["album"].includes(_media_type)) {
+            //     results = await this._hass.callWS({
+            //         type: "media_player/browse_media",
+            //         entity_id: (_f = this._entity) === null || _f === void 0 ? void 0 : _f.entity_id,
+            //         media_content_type: "album_of_track",
+            //         media_content_id: "1",
+            //     });
+            //     (_g = results === null || results === void 0 ? void 0 : results.children) === null || _g === void 0 ? void 0 : _g.map((r, index) => {
+            //         r["media_content_type"] = "PLAYLIST_GOTO_TRACK";
+            //         r["media_content_id"] = index + 1;
+            //         return r;
+            //     });
+            // }
             if (((_j = (_h = this._entity) === null || _h === void 0 ? void 0 : _h.attributes) === null || _j === void 0 ? void 0 : _j.media_title) == "loading...") {
                 this._polrYTubeList.state = 4 /* PoLRYTubeListState.LOADING */;
                 return;
@@ -9081,12 +9079,13 @@ class PoLRYTubePlayingCard extends s$1 {
                 class="background"
                 style="
                 background: linear-gradient(
-                    to top, var(--card-background-color) 50%, 
-                    rgba(var(--rgb-card-background-color),0.75) 100%), 
+                    to top, var(--polr-ytube-bg-color) 30%, 
+                    rgba(var(--rgb-card-background-color),0.1) 50%), 
                     url('${img_url}')
                     no-repeat;
                 background-size: contain;
-                transition: background 2s ease-in-out;"
+                transition: background 2s ease-in-out;
+                filter: brightness(var(--polr-ytube-bg-brightness))"
             ></div>
         `;
     }
@@ -9231,6 +9230,30 @@ class PoLRYTubePlayingCard extends s$1 {
     static get styles() {
         return [
             i$5 `
+                :host {
+                    --polr-ytube-bg-brightness: 40%;
+                    --polr-ytube-bg-color: #1c1c1c;
+                    --polr-ytube-text-color: #ffffff;
+                    --primary-text-color: var(--polr-ytube-text-color);
+                    --mdc-theme-text-primary-on-background: var(
+                        --polr-ytube-text-color
+                    );
+                    --mdc-tab-text-label-color-default: var(
+                        --polr-ytube-text-color
+                    );
+                    --mdc-text-field-fill-color: var(--polr-ytube-bg-color);
+                    --mdc-select-fill-color: var(--polr-ytube-bg-color);
+                    --mdc-select-ink-color: var(--polr-ytube-text-color);
+                    --mdc-select-focused-dropdown-icon-color: #ffffffff;
+                    --mdc-select-dropdown-icon-color: var(
+                        --polr-ytube-text-color
+                    );
+                    --mdc-theme-surface: var(--polr-ytube-bg-color);
+                    --mdc-text-field-ink-color: var(--polr-ytube-text-color);
+                    --mdc-theme-primary: var(--primary-color);
+                    --icon-primary-color: var(--primary-color);
+                }
+
                 ha-card {
                     height: 700px;
                     display: flex;

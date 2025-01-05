@@ -131,12 +131,13 @@ export class PoLRYTubePlayingCard extends LitElement {
                 class="background"
                 style="
                 background: linear-gradient(
-                    to top, var(--card-background-color) 50%, 
-                    rgba(var(--rgb-card-background-color),0.75) 100%), 
+                    to top, var(--polr-ytube-bg-color) 30%, 
+                    rgba(var(--rgb-card-background-color),0.1) 50%), 
                     url('${img_url}')
                     no-repeat;
                 background-size: contain;
-                transition: background 2s ease-in-out;"
+                transition: background 2s ease-in-out;
+                filter: brightness(var(--polr-ytube-bg-brightness))"
             ></div>
         `;
     }
@@ -297,6 +298,30 @@ export class PoLRYTubePlayingCard extends LitElement {
     static get styles(): CSSResultGroup {
         return [
             css`
+                :host {
+                    --polr-ytube-bg-brightness: 25%;
+                    --polr-ytube-bg-color: #1c1c1c;
+                    --polr-ytube-text-color: #ffffff;
+                    --primary-text-color: var(--polr-ytube-text-color);
+                    --mdc-theme-text-primary-on-background: var(
+                        --polr-ytube-text-color
+                    );
+                    --mdc-tab-text-label-color-default: var(
+                        --polr-ytube-text-color
+                    );
+                    --mdc-text-field-fill-color: var(--polr-ytube-bg-color);
+                    --mdc-select-fill-color: var(--polr-ytube-bg-color);
+                    --mdc-select-ink-color: var(--polr-ytube-text-color);
+                    --mdc-select-focused-dropdown-icon-color: #ffffffff;
+                    --mdc-select-dropdown-icon-color: var(
+                        --polr-ytube-text-color
+                    );
+                    --mdc-theme-surface: var(--polr-ytube-bg-color);
+                    --mdc-text-field-ink-color: var(--polr-ytube-text-color);
+                    --mdc-theme-primary: var(--primary-color);
+                    --icon-primary-color: var(--polr-ytube-text-color);
+                }
+
                 ha-card {
                     height: 700px;
                     display: flex;

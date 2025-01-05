@@ -223,7 +223,7 @@ export class PoLRYTubeBrowser extends LitElement {
 
     private _renderPlay() {
         const element = this._browseHistory[this._browseHistory.length - 1];
-        console.log(element);
+
         if (element?.can_play) {
             return html`
                 <div class="playable_result">
